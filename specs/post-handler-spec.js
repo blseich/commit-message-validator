@@ -13,7 +13,6 @@ var requestStub = {
       then: stub()
     },
     buildFormStub = stub(),
-    fetchCommitMessagesStub = stub().returns(promiseStub),
     mockConfigs = {
       accessToken: 'access_token'
     };
@@ -22,37 +21,27 @@ var requestStub = {
 var postHandler = proxyquire('../lib/post-handler', {
   'request': requestStub,
   '../lib/form-builder': buildFormStub,
-  '../lib/commit-message-fetcher': fetchCommitMessagesStub,
   '../lib/configs': mockConfigs
 });
 
 
 describe('Post Handler', function() {
   var statsUrl = "stats url",
-      commitsUrl = "commits url",
+      mockPrMessage = "pr message",
       mockRequest = {
         'payload': {
           'pull_request': {
             'statuses_url': statsUrl,
-            'commits_url': commitsUrl
+            'title': mockPrMessage
           }
         }
       },
-      mockMessages = [],
       mockForm = {};
   
-  promiseStub.then.callsArgWith(0, mockMessages);
-  buildFormStub.withArgs(mockMessages).returns(mockForm);
+  promiseStub.then.callsArgWith(0, mockPrMessage);
+  buildFormStub.withArgs(mockPrMessage).returns(mockForm);
 
-  postHandler(mockRequest); 
-
-  it('should extract commit messages', function() {
-    assert.calledWith(fetchCommitMessagesStub, commitsUrl + '?access_token=' + mockConfigs.accessToken);
-  }); 
-  
-  it('should make post call after extracting commit messages', function() {
-    assert.callOrder(fetchCommitMessagesStub, requestStub.post);
-  });
+  postHandler(mockRequest);
 
   it('should make post call with statuses url', function() {
     assert.calledWith(requestStub.post, match({'url': statsUrl + '?access_token=' + mockConfigs.accessToken}));
@@ -65,5 +54,4 @@ describe('Post Handler', function() {
   it('should set form from formBuilder', function() {
     assert.calledWith(requestStub.post, match({'form': mockForm}));
   });
-
 });
