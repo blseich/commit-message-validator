@@ -4,21 +4,21 @@ var expect = require('chai').expect,
     proxyquire = require('proxyquire');
 
 //Build Stubs
-var validateMessagesStub = sinon.stub(),
+var validateMessageStub = sinon.stub(),
     mockConfigs = {
       successMessage: "description for success",
       failureMessage: "description for failure"
     };
 
 var formBuilder = proxyquire('../lib/form-builder', {
-  '../lib/commit-message-validator': validateMessagesStub,
+  '../lib/commit-message-validator': validateMessageStub,
   '../lib/configs': mockConfigs
 });
 
 describe('Form Builder', function() {
   var commits = [];
 
-  validateMessagesStub.withArgs(commits).returns('validated state');
+  validateMessageStub.withArgs(commits).returns('validated state');
 
   it('should build return object containing context', function() {
     expect(formBuilder()).to.have.property('context').and.equal('Commit Message Validator');
@@ -37,12 +37,12 @@ describe('Form Builder', function() {
   });
 
   it('should set success description', function() {
-    validateMessagesStub.withArgs(commits).returns('success');
+    validateMessageStub.withArgs(commits).returns('success');
     expect(formBuilder(commits).description).to.equal(mockConfigs.successMessage);
   });
 
   it('should set failure description', function() {
-    validateMessagesStub.withArgs(commits).returns('failure');
+    validateMessageStub.withArgs(commits).returns('failure');
     expect(formBuilder(commits).description).to.equal(mockConfigs.failureMessage);
   });
 
