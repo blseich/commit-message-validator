@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Commit Message Validator</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .sub-header {
+      margin-top: .5em;
+      margin-bottom: .5em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-offset-3 col-md-6 text-center">
+        <h1>Commit Message Validator</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-offset-1 col-md-10">
+        <div class="well col-md-3">
+          <h3 class="sub-header text-center">Overview</h3>
+        </div>
+        <div class="col-md-8 text-left">
+          <ul>
+            <li>This webhook is designed to validate that the title of your Pull Request (which will eventually become the merged commit message) is properly formatted</li>
+            <li>Your pull request should match the following regular expression:<code>/[a-zA-Z]+-\d+:.*/</code></li>
+            <li>Or look something like this: <b>ABC-123: this is a commit message</b></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
