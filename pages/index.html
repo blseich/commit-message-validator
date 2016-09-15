@@ -26,7 +26,7 @@
         <div class="col-md-8 text-left">
           <ul>
             <li>This webhook is designed to validate that the title of your Pull Request (which will eventually become the merged commit message) is properly formatted</li>
-            <li>Your pull request should match the following regular expression:<code>/[a-zA-Z]+-\d+:.*/</code></li>
+            <li>Your pull request should match the following regular expression:<code>/^[a-zA-Z\d]+-\d+.*:.*/</code></li>
             <li>Or look something like this: <b>ABC-123: this is a commit message</b></li>
           </ul>
         </div>
